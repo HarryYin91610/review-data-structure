@@ -1,102 +1,139 @@
 class Node {
-  constructor (element) {
-    this.element = element
-    this.next = null
+  constructor (value) {
+    this.value = value;
+    this.next = null;
   }
 }
 
 class LinkedList {
   constructor () {
-    this.head = new Node('head')
+    this.head = new Node('head');
   }
 
-  findByIndex (index) {
-    let currentNode = this.head.next
-    let pos = 0
-    while (currentNode.next !== null && pos !== index) {
-      currentNode = currentNode.next
-      pos++
+  append (value) {
+    let current = this.head;
+
+    while (current.next) {
+      current = current.next
     }
-    if (pos === index) {
-      return currentNode
-    }
-    return -1
+    
+    current.next = new Node(value);
   }
 
-  findByValue (element) {
-    let currentNode = this.head
-    while (currentNode.next !== null && currentNode.element !== element) {
-      currentNode = currentNode.next
+  findNodeByValue (value) {
+    let current = this.head.next;
+
+    while (current && current.value !== value) {
+      current = current.next;
     }
-    return currentNode.next === null ? -1 : currentNode
+
+    return current || -1;
   }
 
-  findPreNode (element) {
-    let currentNode = this.head
-    while (currentNode.next !== null && currentNode.next.element !== element) {
-      currentNode = currentNode.next
+  findPreNode (value) {
+    let current = this.head;
+
+    while (current.next && current.next.value !== value) {
+      current = current.next;
     }
-    return currentNode.next === null ? -1 : currentNode
+
+    if (!current.next) { return -1; }
+
+    return current;
   }
 
-  append (element) {
-    const node = new Node(element)
-    let currentNode = this.head
-    while (currentNode.next) {
-      currentNode = currentNode.next
-    }
-    currentNode.next = node
-  }
-
-  insert (newnode, refer) {
-    const newNode = new Node(newnode)
-    const currentNode = this.findByValue(refer)
-    if (currentNode === -1) {
-      console.log('未找到指定节点')
+  insert (value, referV) {
+    const current = this.findNodeByValue(referV);
+    if (current === -1) {
+      console.error('找不到插入值得位置！')
       return
     }
-    newNode.next = currentNode.next
-    currentNode.next = newNode
+    const newNode = new Node(value);
+    newNode.next = current.next;
+    current.next = newNode;
   }
 
-  remove (element) {
-    const preNode = this.findPreNode(element)
+  remove (value) {
+    const preNode = this.findPreNode(value);
     if (preNode === -1) {
-      console.log('未找到指定节点')
-      return
+      console.error('找不到删除位置！');
+      return;
     }
-    preNode.next = preNode.next.next
+    preNode.next = preNode.next.next;
+  }
+
+  reverseList () {
+    let current = this.head.next;
+    let preNode = null;
+
+    while (current) {
+      let nextNode = current.next;
+      current.next = preNode;
+      preNode = current;
+      current = nextNode;
+    }
+
+    this.head.next = preNode;
+  }
+
+  checkCircle () {
+    let slow = this.head;
+    let fast = this.head.next;
+    let isCircle = false;
+
+    while (fast && fast.next) {
+      fast = fast.next.next;
+      slow = slow.next;
+      if (fast.value === slow.value) { 
+        isCircle = true;
+        break;
+      }
+    }
+
+    return isCircle;
   }
 
   display () {
-    let currentNode = this.head.next
-    while (currentNode !== null) {
-      console.log(currentNode.element)
-      currentNode = currentNode.next
+    let current = this.head.next;
+
+    while (current) {
+      console.log(current.value);
+      current = current.next;
     }
   }
 }
 
-const linkedlist = new LinkedList()
+// 测试
+const list1 = new LinkedList();
 
-linkedlist.append('a')
-linkedlist.append('b')
-linkedlist.append('c')
-linkedlist.append('d')
-linkedlist.append('e')
+list1.append(2);
+list1.append(4);
+list1.append(6);
+list1.append(8);
 
-linkedlist.display()
+list1.display();
 
-console.log('------------------')
+console.log('=======================')
 
-linkedlist.insert('y', 'c')
-linkedlist.display()
+list1.insert(5, 4);
+list1.insert(7, 6);
 
-console.log('------------------')
+list1.display();
 
-linkedlist.remove('y')
-linkedlist.display()
+console.log('=======================')
 
-console.log('------------------')
+list1.remove(6);
 
-linkedlist.findByIndex(3)
+list1.display();
+
+console.log('=======================')
+
+list1.reverseList();
+
+list1.display();
+
+console.log(list1.checkCircle());
+
+list1.findNodeByValue(2).next = list1.findNodeByValue(5);
+
+console.log(list1.checkCircle());

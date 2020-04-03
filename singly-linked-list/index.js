@@ -19,7 +19,7 @@ class LinkedList {
     while (currentNode !== null && currentNode.element !== item) {
       currentNode = currentNode.next
     }
-    console.log(currentNode)
+    // console.log(currentNode)
     return currentNode === null ? -1 : currentNode
   } 
   
@@ -31,7 +31,7 @@ class LinkedList {
       currentNode = currentNode.next
       pos++
     }
-    console.log(currentNode)
+    // console.log(currentNode)
     return currentNode === null ? -1 : currentNode
   }
 
@@ -81,10 +81,8 @@ class LinkedList {
 
   //增强尾插法可读性，便于初学者理解
   reverseList () {
-    //head节点即哨兵，作用就是使所有链表，
-    // 包括空链表的头节点不为null,并使对单链表的插入、删除操作不需要区分是否为空表或是否在第一个位置进行，
-    // 从而与其他位置的插入、删除操作一致
-    //所以反转链表的时候不需要带上head节点
+    // head节点即哨兵，作用就是使所有链表，包括空链表的头节点不为null,并使对单链表的插入、删除操作不需要区分是否为空表或是否在第一个位置进行，
+    // 从而与其他位置的插入、删除操作一致，所以反转链表的时候不需要带上head节点
     let currentNode=this.head.next
     //第一个节点头结点让其指向null
     let previousNode=null
@@ -99,8 +97,8 @@ class LinkedList {
       //抬走，下一个！
       currentNode=nextNode
     }
-  //最后将反转好的链表加上头节点
-  this.head.next=previousNode
+    //最后将反转好的链表加上头节点
+    this.head.next=previousNode
   }
 
   // 环验证
@@ -134,7 +132,7 @@ class LinkedList {
       this.reverseList()
   }
 
-  // 求中间节点
+  // 求中间节点（不算head节点）
   findMiddleNode() {
       let fast = this.head
       let slow = this.head
@@ -186,56 +184,57 @@ const mergeSortedLists = (listA, listB) => {
       currentNode = currentNode.next
   }
 
-  if (a != null) {
+  if (a !== null) {
       currentNode.next = a
-  } else {
+  } else if (b !== null){
       currentNode.next = b
   }
   return resultList
 }
 
 // Test
-const LList = new LinkedList()
-LList.append('chen')
-LList.append('curry')
-LList.append('sang')
-LList.append('zhao') // chen -> curry -> sang -> zhao
-console.log('-------------insert item------------')
-LList.insert('qian', 'chen') // 首元素后插入
-LList.insert('zhou', 'zhao') // 尾元素后插入
-LList.display() // chen -> qian -> curry -> sang -> zhao -> zhou
-console.log('-------------remove item------------')
-LList.remove('curry')
-LList.display() // chen -> qian -> sang -> zhao -> zhou
-console.log('-------------find by item------------')
-LList.findByValue('chen')
-console.log('-------------find by index------------')
-LList.findByIndex(2)
-console.log('-------------与头结点同值元素测试------------')
-LList.insert('head', 'sang')
-LList.display() // chen -> qian -> sang -> head -> zhao -> zhou
-LList.findPrev('head') // sang
-LList.remove('head')
-LList.display() // chen -> qian -> sang -> zhao -> zhou
+// const LList1 = new LinkedList()
+// LList1.append('chen')
+// LList1.append('curry')
+// LList1.append('sang')
+// LList1.append('zhao') // chen -> curry -> sang -> zhao
+// LList1.display()
+// console.log('-------------insert item------------')
+// LList1.insert('qian', 'chen') // 首元素后插入
+// LList1.insert('zhou', 'zhao') // 尾元素后插入
+// LList1.display() // chen -> qian -> curry -> sang -> zhao -> zhou
+// console.log('-------------remove item------------')
+// LList1.remove('curry')
+// LList1.display() // chen -> qian -> sang -> zhao -> zhou
+// console.log('-------------find by item------------')
+// LList1.findByValue('chen')
+// console.log('-------------find by index------------')
+// LList1.findByIndex(2)
+// console.log('-------------与头结点同值元素测试------------')
+// LList1.insert('head', 'sang')
+// LList1.display() // chen -> qian -> sang -> head -> zhao -> zhou
+// LList1.findPrev('head') // sang
+// LList1.remove('head')
+// LList1.display() // chen -> qian -> sang -> zhao -> zhou
 
-console.log('-------------高级操作------------')
-// Test
-const LList = new LinkedList()
-LList.insert('chen', 'head')
-LList.insert('curry', 'chen')
-LList.insert('sang', 'curry')
-LList.insert('zhao', 'sang')
-LList.display()
-console.log('-------------start reverse------------')
-LList.reverseList()
-LList.display()
-console.log('-------------check circle------------')
-// LList.findByValue('chen').next = LList.findByValue('sang')
-LList.display()
-console.log(LList.checkCircle())
-console.log('-------------remove the one before last ------------')
-LList.removeByIndexFromEnd(2)
-LList.display()
+// console.log('-------------高级操作------------')
+// const LList2 = new LinkedList()
+// LList2.insert('chen', 'head')
+// LList2.insert('curry', 'chen')
+// LList2.insert('sang', 'curry')
+// LList2.insert('zhao', 'sang')
+// LList2.display()
+// console.log('-------------start reverse------------')
+// LList2.reverseList()
+// LList2.display()
+// console.log('-------------check circle------------')
+// // LList2.findByValue('chen').next = LList2.findByValue('sang')
+// console.log(LList2.checkCircle())
+// console.log('-------------remove the one before last ------------')
+// LList2.removeByIndexFromEnd(2)
+// LList2.display()
+
+console.log('-------------list1 ------------')
 
 const sortedList1 = new LinkedList()
 sortedList1.insert(1, 'head')
@@ -244,6 +243,8 @@ sortedList1.insert(4, 2)
 sortedList1.insert(6, 4)
 
 sortedList1.display()
+
+console.log('-------------list2 ------------')
 
 const sortedList2 = new LinkedList()
 sortedList2.insert(3, 'head')
